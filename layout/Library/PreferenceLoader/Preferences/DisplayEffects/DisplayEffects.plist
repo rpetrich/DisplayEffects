@@ -65,6 +65,20 @@
 		</dict>
 		<dict>
 			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.rpetrich.displayeffects</string>
+			<key>key</key>
+			<string>DEMonochrome</string>
+			<key>label</key>
+			<string>Monochrome</string>
+			<key>PostNotification</key>
+			<string>com.rpetrich.displayeffects/settingchanged</string>
+		</dict>
+		<dict>
+			<key>cell</key>
 			<string>PSLinkListCell</string>
 			<key>default</key>
 			<string>1,0,0</string>
