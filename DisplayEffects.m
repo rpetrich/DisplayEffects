@@ -4,7 +4,7 @@
 
 static UIColor *color;
 static CFMutableDictionaryRef windowMap;
-static BOOL monochrome;
+static NSArray *windowFilters;
 
 @interface CAFilter : NSObject {
 }
@@ -42,10 +42,7 @@ CHOptimizedMethod(0, self, void, UIWindow, _commonInit)
 		view.hidden = YES;
 	[self addSubview:view];
 	
-	if (monochrome)
-		self.layer.filters = [NSArray arrayWithObject:[CHClass(CAFilter) filterWithType:@"colorMonochrome"]];
-	else
-		self.layer.filters = nil;
+	self.layer.filters = windowFilters;
 	
 	[view release];
 }
@@ -87,14 +84,14 @@ static void LoadSettings()
 		}
 	}
 	
-	monochrome = [[settings objectForKey:@"DEMonochrome"] boolValue];
-	
+	[windowFilters release];
+	if ([[settings objectForKey:@"DEMonochrome"] boolValue]) {
+		windowFilters = [[NSArray alloc] initWithObjects:[CHClass(CAFilter) filterWithType:@"colorMonochrome"], nil];
+	} else {
+		windowFilters = nil;
+	}
 	for (UIWindow *window in [(id)windowMap allKeys]) {
-		if (monochrome) {
-			window.layer.filters = [NSArray arrayWithObject:[CHClass(CAFilter) filterWithType:@"colorMonochrome"]];
-		} else {
-			window.layer.filters = nil;
-		}
+		window.layer.filters = windowFilters;
 	}
 	
 	float contrast = [[settings objectForKey:@"DEContrast"] floatValue];
